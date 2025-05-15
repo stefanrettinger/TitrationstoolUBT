@@ -13,11 +13,8 @@
             margin: 20px;
             background-color: #f4f4f4;
             color: #333;
-            /* display: flex; /* Removed for main body */
-            /* flex-direction: column; /* Removed for main body */
-            /* align-items: center; /* Removed for main body */
         }
-        .page-container { /* New wrapper for the entire page content */
+        .page-container {
             display: flex;
             flex-direction: column;
             align-items: center;
@@ -28,22 +25,22 @@
             padding: 25px;
             border-radius: 12px;
             box-shadow: 0 4px 8px rgba(0,0,0,0.1);
-            width: 100%; /* Container will take full width of its parent */
-            max-width: 1600px; /* Increased max-width for landscape */
+            width: 100%;
+            max-width: 1600px;
             margin-bottom: 20px;
         }
-        .main-layout { /* New class for the two-column layout */
+        .main-layout {
             display: flex;
-            flex-direction: row; /* Arrange children side-by-side */
-            gap: 20px; /* Space between columns */
+            flex-direction: row;
+            gap: 20px;
         }
         .left-column {
-            flex: 2; /* Takes up 2 parts of the available space */
+            flex: 2;
             display: flex;
             flex-direction: column;
         }
         .right-column {
-            flex: 3; /* Takes up 3 parts of the available space */
+            flex: 3;
             display: flex;
             flex-direction: column;
         }
@@ -79,8 +76,8 @@
              font-size: 1em;
         }
          .controls input[type="range"] {
-             width: calc(100% - 250px); /* Adjusted for label width */
-             min-width: 150px; /* Ensure slider is not too small */
+             width: calc(100% - 250px);
+             min-width: 150px;
              vertical-align: top;
         }
          .controls button {
@@ -100,7 +97,6 @@
          .controls button:active {
              background-color: #1e7e34;
         }
-
         .display p {
             margin: 8px 0;
             font-size: 1.2em;
@@ -108,9 +104,9 @@
         }
          .chart-container {
              position: relative;
-             height: 450px; /* Adjusted height slightly */
+             height: 450px;
              width: 100%;
-             margin-bottom: 20px; /* Added margin for spacing */
+             margin-bottom: 20px;
         }
         #titrationChart {
             width: 100%;
@@ -126,7 +122,7 @@
              margin-right: 10px;
         }
          .explanation {
-             margin-top: 0; /* Adjusted margin as it's now in the right column flow */
+             margin-top: 0;
              padding: 20px;
              border: 1px solid #ddd;
              border-radius: 8px;
@@ -137,78 +133,59 @@
              margin-top: 0;
              color: #0056b3;
         }
-
-        /* Responsive adjustments */
-        @media (max-width: 1024px) { /* Tablet and below */
-            .main-layout {
-                flex-direction: column; /* Stack columns vertically */
-            }
-            .left-column, .right-column {
-                flex: 1; /* Reset flex grow */
-                width: 100%;
-            }
-            .controls input[type="range"] {
-                 width: calc(100% - 220px); /* Adjust for smaller screens if needed */
-            }
+        @media (max-width: 1024px) {
+            .main-layout { flex-direction: column; }
+            .left-column, .right-column { flex: 1; width: 100%; }
+            .controls input[type="range"] { width: calc(100% - 220px); }
         }
-         @media (max-width: 768px) { /* Mobile */
-            .controls label {
-                width: 100%; /* Make labels full width */
-                margin-bottom: 5px;
-            }
+         @media (max-width: 768px) {
+            .controls label { width: 100%; margin-bottom: 5px; }
             .controls input[type="number"],
             .controls input[type="range"],
-            .controls select {
-                width: calc(100% - 20px); /* Make inputs/selects take more width */
-                margin-right: 0;
-            }
-            .controls input[type="range"] {
-                 width: 100%;
-            }
-            .controls span#currentVolumeSpan {
-                display: block; /* Make volume span appear below slider */
-                text-align: right;
-                width: 100%;
-                margin-top: 5px;
-            }
+            .controls select { width: calc(100% - 20px); margin-right: 0; }
+            .controls input[type="range"] { width: 100%; }
+            .controls span#currentVolumeSpan { display: block; text-align: right; width: 100%; margin-top: 5px; }
          }
-
     </style>
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;700&display=swap" rel="stylesheet">
+    <script type="text/javascript" id="MathJax-script" async
+      src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js">
+    </script>
 </head>
 <body>
-    <div class="page-container"> <div class="container">
+    <div class="page-container">
+        <div class="container">
             <h1>Erweiterte Titrationssimulation</h1>
             <p>Simulieren Sie die Titration verschiedener Säuren mit verschiedenen Basen und erkunden Sie die Auswirkungen von Konzentrationen und Säure-/Basenstärke.</p>
 
-            <div class="main-layout"> <div class="left-column">
+            <div class="main-layout">
+                <div class="left-column">
                     <div class="controls">
                         <h2>Steuerung & Parameter</h2>
-                         <div>
-                             <label for="acidSelect">Säure auswählen:</label>
-                             <select id="acidSelect">
-                                 <option value="strong_acid">Starke Säure (z.B. HCl)</option>
-                                 <option value="acetic_acid">Schwache Säure (Essigsäure, pKs 4.76)</option>
-                                 <option value="formic_acid">Schwache Säure (Ameisensäure, pKs 3.75)</option>
-                                 <option value="hydrocyanic_acid">Schwache Säure (Blausäure, pKs 9.21)</option>
-                                 </select>
-                         </div>
-                         <div id="acidStrengthControls">
-                             <label for="pKaInput">pKs-Wert der Säure:</label>
-                             <input type="number" id="pKaInput" value="4.76" min="-2" max="14" step="0.01">
-                         </div>
-                         <div>
-                             <label for="baseSelect">Base auswählen:</label>
-                             <select id="baseSelect">
-                                 <option value="strong_base">Starke Base (z.B. NaOH)</option>
-                                 <option value="ammonia">Schwache Base (Ammoniak, pKb 4.75)</option>
-                                 </select>
-                         </div>
-                         <div id="baseStrengthControls">
-                             <label for="pKbInput">pKb-Wert der Base:</label>
-                             <input type="number" id="pKbInput" value="4.75" min="-2" max="14" step="0.01">
-                         </div>
-
+                        <div>
+                            <label for="acidSelect">Säure auswählen:</label>
+                            <select id="acidSelect">
+                                <option value="strong_acid">Starke Säure (z.B. HCl)</option>
+                                <option value="acetic_acid">Schwache Säure (Essigsäure, pKs 4.76)</option>
+                                <option value="formic_acid">Schwache Säure (Ameisensäure, pKs 3.75)</option>
+                                <option value="hydrocyanic_acid">Schwache Säure (Blausäure, pKs 9.21)</option>
+                            </select>
+                        </div>
+                        <div id="acidStrengthControls">
+                            <label for="pKaInput">pKs-Wert der Säure:</label>
+                            <input type="number" id="pKaInput" value="4.76" min="-2" max="14" step="0.01">
+                        </div>
+                        <div>
+                            <label for="baseSelect">Base auswählen:</label>
+                            <select id="baseSelect">
+                                <option value="strong_base">Starke Base (z.B. NaOH)</option>
+                                <option value="ammonia">Schwache Base (Ammoniak, pKb 4.75)</option>
+                            </select>
+                        </div>
+                        <div id="baseStrengthControls">
+                            <label for="pKbInput">pKb-Wert der Base:</label>
+                            <input type="number" id="pKbInput" value="4.75" min="-2" max="14" step="0.01">
+                        </div>
                         <div>
                             <label for="initialAcidVolumeInput">Anfangs-Volumen Säure (mL):</label>
                             <input type="number" id="initialAcidVolumeInput" value="20" min="10" step="10">
@@ -217,63 +194,78 @@
                             <label for="acidConcentrationInput">Konzentration Säure (mol/L):</label>
                             <input type="number" id="acidConcentrationInput" value="0.1" min="0.001" step="0.001">
                         </div>
-                         <div>
+                        <div>
                             <label for="baseConcentrationInput">Konzentration Base (mol/L):</label>
                             <input type="number" id="baseConcentrationInput" value="0.1" min="0.001" step="0.001">
                         </div>
-                         <div>
-                             <label for="volumeSlider">Zugegebenes Volumen Base (mL):</label>
-                             <input type="range" id="volumeSlider" min="0" max="50" value="0" step="1"> <span id="currentVolumeSpan">0.0</span> mL
-                         </div>
-
-                         <div class="checkbox-group">
-                             <input type="checkbox" id="showConcentrations">
-                             <label for="showConcentrations">Konzentrationen der Spezies anzeigen (nur schwache Säure/starke Base)</label>
-                         </div>
-                         <div class="checkbox-group">
-                             <input type="checkbox" id="logScaleConcentrations">
-                             <label for="logScaleConcentrations">Logarithmische Skala für Konzentrationen</label>
-                         </div>
-                         <div class="select-group">
-                             <label for="indicatorSelect">pH-Indikator visualisieren:</label>
-                             <select id="indicatorSelect">
-                                 <option value="none">Kein Indikator</option>
-                                 <option value="methyl_orange">Methylorange (3.1 - 4.4)</option>
-                                 <option value="methyl_red">Methylrot (4.4 - 6.2)</option>
-                                 <option value="bromothymol_blue">Bromthymolblau (6.0 - 7.6)</option>
-                                 <option value="phenolphthalein">Phenolphthalein (8.2 - 10.0)</option>
-                             </select>
-                         </div>
-
+                        <div>
+                            <label for="volumeSlider">Zugegebenes Volumen Base (mL):</label>
+                            <input type="range" id="volumeSlider" min="0" max="50" value="0" step="1"> <span id="currentVolumeSpan">0.0</span> mL
+                        </div>
+                        <div class="checkbox-group">
+                            <input type="checkbox" id="showConcentrations">
+                            <label for="showConcentrations">Konzentrationen der Spezies anzeigen</label>
+                        </div>
+                        <div class="checkbox-group">
+                            <input type="checkbox" id="logScaleConcentrations">
+                            <label for="logScaleConcentrations">Logarithmische Skala für Konzentrationen</label>
+                        </div>
+                        <div class="select-group">
+                            <label for="indicatorSelect">pH-Indikator visualisieren:</label>
+                            <select id="indicatorSelect">
+                                <option value="none">Kein Indikator</option>
+                                <option value="methyl_orange">Methylorange (3.1 - 4.4)</option>
+                                <option value="methyl_red">Methylrot (4.4 - 6.2)</option>
+                                <option value="bromothymol_blue">Bromthymolblau (6.0 - 7.6)</option>
+                                <option value="phenolphthalein">Phenolphthalein (8.2 - 10.0)</option>
+                            </select>
+                        </div>
                         <button id="resetButton">Simulation zurücksetzen</button>
-                    </div> </div> <div class="right-column">
+                    </div>
+                </div>
+                <div class="right-column">
                     <div class="display">
                         <h2>Aktuelle Werte</h2>
                         <p>Aktueller pH-Wert: <span id="currentPH">-</span></p>
                         <p>Zugegebenes Volumen Base: <span id="currentVolumeDisplay">-</span> mL</p>
-                         <p>Äquivalenzpunkt Volumen: <span id="equivalenceVolume">-</span> mL</p>
+                        <p>Äquivalenzpunkt Volumen: <span id="equivalenceVolume">-</span> mL</p>
                     </div>
-
                     <div class="chart-container">
                         <canvas id="titrationChart"></canvas>
                     </div>
-
-                     <div class="explanation">
-                         <h3>Erläuterungen zur Titrationskurve</h3>
-                         <p>Die Form der Titrationskurve hängt stark von der Stärke der titrierten Säure und der verwendeten Base ab.</p>
-                         <p><strong>Starke Säure + Starke Base:</strong> Charakterisiert durch einen niedrigen Anfangs-pH, einen sehr steilen pH-Sprung am Äquivalenzpunkt (pH 7) und einen hohen pH im Überschussbereich der Base.</p>
-                         <p><strong>Schwache Säure + Starke Base:</strong> Höherer Anfangs-pH als bei einer starken Säure gleicher Konzentration. Vor dem Äquivalenzpunkt liegt ein Pufferbereich, in dem der pH-Wert sich nur langsam ändert ($pH = pK_s + \log\left(\frac{[A^-]}{[HA]}\right)$). Der Äquivalenzpunkt liegt bei pH > 7. Der pH-Sprung ist weniger steil.</p>
-                          <p><strong>Starke Säure + Schwache Base:</strong> Niedriger Anfangs-pH. Der Äquivalenzpunkt liegt bei pH < 7. Nach dem Äquivalenzpunkt gibt es einen Pufferbereich der schwachen Base und ihrer korrespondierenden Säure.</p>
-                          <p><strong>Schwache Säure + Schwache Base:</strong> Oft ein weniger ausgeprägter pH-Sprung. Der pH am Äquivalenzpunkt hängt von den relativen Stärken (pKs und pKb) ab.</p>
-                         <p><strong>Äquivalenzpunkt:</strong> Der Punkt, an dem die Stoffmenge der zugegebenen Base exakt der ursprünglichen Stoffmenge der Säure entspricht. Das Volumen der Base am Äquivalenzpunkt kann berechnet werden mit $V_{Base} \times c_{Base} = V_{Säure} \times c_{Säure}$.</p>
-                         <p><strong>pH-Indikatoren:</strong> Ihre Farbe ändert sich im Umschlagsbereich. Ein geeigneter Indikator hat einen Umschlagsbereich, der den pH-Sprung am Äquivalenzpunkt überlappt.</p>
-                         <p>Die Anzeige der Spezieskonzentrationen ist derzeit nur für die Titration einer schwachen Säure mit einer starken Base implementiert, um die Bildung des Puffers und die Änderung der Konzentrationen von HA und A⁻ zu visualisieren. Aktivieren Sie die logarithmische Skala, um sehr kleine Konzentrationen (wie H⁺ und OH⁻) besser sichtbar zu machen.</p>
-                     </div>
-                </div> </div> </div> </div> <script>
-        // Konstanten
-        const Kw = 1e-14; // Ionenprodukt des Wassers bei 25°C
-
-        // HTML Elemente
+                    <div class="explanation">
+                        <h3>Erläuterungen zur Titrationskurve</h3>
+                        <p><strong>Grundlagen zum pH-Wert:</strong></p>
+                        <p>Wasser ist ein Ampholyt, d.h. es kann sowohl als Säure als auch als Base reagieren. In reinem Wasser findet eine sogenannte Eigendissoziation (Autoprotolyse) statt, bei der ein Wassermolekül ein Proton (H⁺) an ein anderes abgibt:</p>
+                        <p>$$2 \text{ H}_2\text{O} \rightleftharpoons \text{H}_3\text{O}^+ + \text{OH}^-$$</p>
+                        <p>Das Gleichgewicht dieser Reaktion liegt stark auf der linken Seite. Die Konzentrationen der Hydroniumionen (H₃O⁺, oft vereinfacht als H⁺ geschrieben) und der Hydroxidionen (OH⁻) sind in reinem Wasser bei 25°C sehr gering. Das Produkt dieser beiden Konzentrationen ist jedoch konstant und wird als Ionenprodukt des Wassers ($K_w$) bezeichnet:</p>
+                        <p>$$K_w = [\text{H}_3\text{O}^+] \cdot [\text{OH}^-] = 1 \cdot 10^{-14} \text{ mol}^2/\text{L}^2 \quad (\text{bei } 25°\text{C})$$</p>
+                        <p>In reinem Wasser gilt: $[\text{H}_3\text{O}^+] = [\text{OH}^-] = \sqrt{K_w} = 1 \cdot 10^{-7} \text{ mol/L}$.</p>
+                        <p>Der <strong>pH-Wert</strong> wurde eingeführt, um mit diesen oft sehr kleinen Konzentrationen einfacher umgehen zu können. Er ist definiert als der negative dekadische Logarithmus der Hydroniumionen-Konzentration:</p>
+                        <p>$$\text{pH} = -\log_{10} [\text{H}_3\text{O}^+]$$</p>
+                        <p>Analog dazu gibt es den pOH-Wert: $\text{pOH} = -\log_{10} [\text{OH}^-]$. Aus dem Ionenprodukt folgt: $\text{pH} + \text{pOH} = 14$ (bei 25°C).</p>
+                        <p>Die pH-Skala reicht typischerweise von 0 bis 14:</p>
+                        <ul>
+                            <li><strong>pH &lt; 7:</strong> Saure Lösung ($[\text{H}_3\text{O}^+] > [\text{OH}^-]$)</li>
+                            <li><strong>pH = 7:</strong> Neutrale Lösung ($[\text{H}_3\text{O}^+] = [\text{OH}^-]$)</li>
+                            <li><strong>pH > 7:</strong> Basische (alkalische) Lösung ($[\text{H}_3\text{O}^+] < [\text{OH}^-]$)</li>
+                        </ul>
+                        <p><strong>Form der Titrationskurve:</strong></p>
+                        <p>Die Form der Titrationskurve hängt stark von der Stärke der titrierten Säure und der verwendeten Base ab.</p>
+                        <p><strong>Starke Säure + Starke Base:</strong> Charakterisiert durch einen niedrigen Anfangs-pH, einen sehr steilen pH-Sprung am Äquivalenzpunkt (pH 7) und einen hohen pH im Überschussbereich der Base.</p>
+                        <p><strong>Schwache Säure + Starke Base:</strong> Höherer Anfangs-pH als bei einer starken Säure gleicher Konzentration. Vor dem Äquivalenzpunkt liegt ein Pufferbereich, in dem der pH-Wert sich nur langsam ändert ($\text{pH} = \text{pK}_s + \log\left(\frac{[\text{A}^-]}{[\text{HA}]}\right)$). Der Äquivalenzpunkt liegt bei pH > 7. Der pH-Sprung ist weniger steil.</p>
+                        <p><strong>Starke Säure + Schwache Base:</strong> Niedriger Anfangs-pH. Der Äquivalenzpunkt liegt bei pH < 7. Nach dem Äquivalenzpunkt gibt es einen Pufferbereich der schwachen Base und ihrer korrespondierenden Säure.</p>
+                        <p><strong>Schwache Säure + Schwache Base:</strong> Oft ein weniger ausgeprägter pH-Sprung. Der pH am Äquivalenzpunkt hängt von den relativen Stärken ($\text{pK}_s$ und $\text{pK}_b$) ab.</p>
+                        <p><strong>Äquivalenzpunkt:</strong> Der Punkt, an dem die Stoffmenge der zugegebenen Base exakt der ursprünglichen Stoffmenge der Säure entspricht. Das Volumen der Base am Äquivalenzpunkt kann berechnet werden mit $V_{\text{Base}} \cdot c_{\text{Base}} = V_{\text{Säure}} \cdot c_{\text{Säure}}$.</p>
+                        <p><strong>pH-Indikatoren:</strong> Ihre Farbe ändert sich im Umschlagsbereich. Ein geeigneter Indikator hat einen Umschlagsbereich, der den pH-Sprung am Äquivalenzpunkt überlappt.</p>
+                        <p>Die Anzeige der Spezieskonzentrationen visualisiert die Konzentration der undissoziierten/nicht-neutralisierten Säure ([HA]), ihrer konjugierten Base ([A⁻]), sowie Hydroniumionen ([H⁺]) und Hydroxidionen ([OH⁻]). Aktivieren Sie die logarithmische Skala, um sehr kleine Konzentrationen besser sichtbar zu machen.</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <script>
+        const Kw = 1e-14;
         const acidSelect = document.getElementById('acidSelect');
         const acidStrengthControlsDiv = document.getElementById('acidStrengthControls');
         const pKaInput = document.getElementById('pKaInput');
@@ -293,12 +285,7 @@
         const concentrationsCheckboxGroup = showConcentrationsCheckbox.parentElement;
         const logScaleConcentrationsCheckbox = document.getElementById('logScaleConcentrations');
         const indicatorSelect = document.getElementById('indicatorSelect');
-
-
-        // Chart.js Instanz
         let titrationChart;
-
-        // Vordefinierte Indikatoren (pH-Umschlagsbereich [Start, Ende] und Farbe)
         const indicators = {
             none: { range: null, color: null },
             methyl_orange: { range: [3.1, 4.4], color: 'rgba(255, 165, 0, 0.3)' },
@@ -307,8 +294,6 @@
             phenolphthalein: { range: [8.2, 10.0], color: 'rgba(255, 192, 203, 0.4)' }
         };
 
-
-        // Funktion zur Berechnung des pH-Werts für die Titration
         function calculatePH(volumeBaseMl, acidType, baseType, initialAcidVolume, acidConcentration, baseConcentration, pKa, pKb) {
             const Va = initialAcidVolume / 1000;
             const Ca = acidConcentration;
@@ -317,171 +302,176 @@
             const totalVolume = Va + Vb;
 
             if (totalVolume <= 1e-12) {
-                if (volumeBaseMl === 0) {
+                if (volumeBaseMl === 0) { // Initial pH of acid
                     if (acidType === 'strong_acid') {
-                        return -Math.log10(Math.max(Ca, 1e-14));
-                    } else {
+                        if (Ca <= 0) return NaN; // Avoid log(0) or log(negative)
+                        return -Math.log10(Ca);
+                    } else { // Weak acid
+                        if (Ca <= 0) return NaN;
                         const Ka_calc = Math.pow(10, -pKa);
+                        // Quadratic: x^2 + Ka*x - Ka*Ca = 0
                         const hPlus = (-Ka_calc + Math.sqrt(Math.max(0, Ka_calc * Ka_calc + 4 * Ka_calc * Ca))) / 2;
-                        return -Math.log10(Math.max(hPlus, 1e-14));
+                        if (hPlus <= 0) return NaN;
+                        return -Math.log10(hPlus);
                     }
                 }
-                return NaN;
+                return NaN; // Should not happen if Vb > 0 and totalVolume is 0
             }
 
             const Ka = Math.pow(10, -pKa);
             const Kb = Math.pow(10, -pKb);
-            // const pKw = 14; // Kw is used directly
-
             const molesAcidInitial = Va * Ca;
             const molesBaseAdded = Vb * Cb;
-            const tolerance = 1e-9;
+            const tolerance = 1e-9; // Tolerance for equivalence point
 
+            // Before equivalence point
             if (molesBaseAdded < molesAcidInitial - tolerance) {
                 if (acidType === 'strong_acid' && baseType === 'strong_base') {
                     const excessMolesH = molesAcidInitial - molesBaseAdded;
                     const concentrationH = excessMolesH / totalVolume;
                     return -Math.log10(Math.max(concentrationH, 1e-14));
-                } else if (acidType !== 'strong_acid' && baseType === 'strong_base') {
+                } else if (acidType !== 'strong_acid' && baseType === 'strong_base') { // Weak acid + strong base
                     const molesHA = molesAcidInitial - molesBaseAdded;
                     const molesA = molesBaseAdded;
-                    if (molesHA <= 1e-12) { // Avoid log(0) or division by zero if molesHA is effectively zero
-                         // At the very beginning, or if HA is consumed, this can happen.
-                         // If molesA is also very small (start of titration), use initial pH logic
-                         if (molesA < 1e-9) {
-                            const Ka_calc = Math.pow(10, -pKa);
-                            const hPlus_initial = (-Ka_calc + Math.sqrt(Math.max(0, Ka_calc * Ka_calc + 4 * Ka_calc * Ca))) / 2;
-                            return -Math.log10(Math.max(hPlus_initial, 1e-14));
-                         }
-                         // If HA is consumed but A- exists, it's closer to equivalence point pH of weak acid salt
-                         // This case should ideally be handled by the equivalence point logic, but as a safeguard:
-                         return NaN; // Or a more specific calculation if needed
+                    if (molesHA <= 0 && molesA <= 0 && volumeBaseMl < 1e-9) { // Initial state of weak acid
+                         const Ka_calc = Math.pow(10, -pKa);
+                         const hPlus_initial = (-Ka_calc + Math.sqrt(Math.max(0, Ka_calc * Ka_calc + 4 * Ka_calc * Ca))) / 2;
+                         return -Math.log10(Math.max(hPlus_initial, 1e-14));
                     }
+                    if (molesHA <= 1e-12) return pKa + Math.log10(Math.max(molesA / 1e-12, 1e-14)); // Avoid division by zero, assume tiny HA
                     const ratio = molesA / molesHA;
-                     if (volumeBaseMl < 1e-9) {
-                        const Ka_calc = Math.pow(10, -pKa);
-                        const hPlus_initial = (-Ka_calc + Math.sqrt(Math.max(0, Ka_calc * Ka_calc + 4 * Ka_calc * Ca))) / 2;
-                        return -Math.log10(Math.max(hPlus_initial, 1e-14));
-                    }
                     return pKa + Math.log10(Math.max(ratio, 1e-14));
-                } else if (acidType === 'strong_acid' && baseType !== 'strong_base') {
+                } else if (acidType === 'strong_acid' && baseType !== 'strong_base') { // Strong acid + weak base
                     const excessMolesAcid = molesAcidInitial - molesBaseAdded;
                     const concentrationH = excessMolesAcid / totalVolume;
                     return -Math.log10(Math.max(concentrationH, 1e-14));
-                } else if (acidType !== 'strong_acid' && baseType !== 'strong_base') {
+                } else if (acidType !== 'strong_acid' && baseType !== 'strong_base') { // Weak acid + weak base
                     const molesHA = molesAcidInitial - molesBaseAdded;
-                    const molesA = molesBaseAdded;
-                    if (molesHA <= 1e-12) return NaN;
-                     if (volumeBaseMl < 1e-9) {
-                        const Ka_calc = Math.pow(10, -pKa);
-                        const hPlus_initial = (-Ka_calc + Math.sqrt(Math.max(0, Ka_calc * Ka_calc + 4 * Ka_calc * Ca))) / 2;
-                        return -Math.log10(Math.max(hPlus_initial, 1e-14));
-                    }
-                    const ratio = molesA / molesHA;
-                    return pKa + Math.log10(Math.max(ratio, 1e-14));
+                    const molesA = molesBaseAdded; 
+                     if (molesHA <= 0 && molesA <= 0 && volumeBaseMl < 1e-9) { // Initial state
+                         const Ka_calc = Math.pow(10, -pKa);
+                         const hPlus_initial = (-Ka_calc + Math.sqrt(Math.max(0, Ka_calc * Ka_calc + 4 * Ka_calc * Ca))) / 2;
+                         return -Math.log10(Math.max(hPlus_initial, 1e-14));
+                     }
+                    if (molesHA <= 1e-12) return pKa + Math.log10(Math.max(molesA / 1e-12, 1e-14));
+                    const ratio = molesA / molesHA; 
+                    return pKa + Math.log10(Math.max(ratio, 1e-14)); 
                 }
             }
+            // At equivalence point
             else if (Math.abs(molesBaseAdded - molesAcidInitial) < tolerance) {
                 if (acidType === 'strong_acid' && baseType === 'strong_base') {
                     return 7;
-                } else if (acidType !== 'strong_acid' && baseType === 'strong_base') {
+                } else if (acidType !== 'strong_acid' && baseType === 'strong_base') { 
                     const concentrationA_initial = molesAcidInitial / totalVolume;
-                    const Kb_calc = Kw / Ka;
-                    const ohMinus = (-Kb_calc + Math.sqrt(Math.max(0, Kb_calc * Kb_calc + 4 * Kb_calc * concentrationA_initial))) / 2;
+                    const Kb_for_A_minus = Kw / Ka;
+                    const ohMinus = (-Kb_for_A_minus + Math.sqrt(Math.max(0, Kb_for_A_minus * Kb_for_A_minus + 4 * Kb_for_A_minus * concentrationA_initial))) / 2;
                     return 14 - (-Math.log10(Math.max(ohMinus, 1e-14)));
-                } else if (acidType === 'strong_acid' && baseType !== 'strong_base') {
-                    const concentrationBH_initial = molesAcidInitial / totalVolume;
-                    const Ka_calc = Kw / Kb;
-                    const hPlus = (-Ka_calc + Math.sqrt(Math.max(0, Ka_calc * Ka_calc + 4 * Ka_calc * concentrationBH_initial))) / 2;
+                } else if (acidType === 'strong_acid' && baseType !== 'strong_base') { 
+                    const concentrationBH_initial = molesAcidInitial / totalVolume; 
+                    const Ka_for_BH_plus = Kw / Kb;
+                    const hPlus = (-Ka_for_BH_plus + Math.sqrt(Math.max(0, Ka_for_BH_plus * Ka_for_BH_plus + 4 * Ka_for_BH_plus * concentrationBH_initial))) / 2;
                     return -Math.log10(Math.max(hPlus, 1e-14));
-                } else if (acidType !== 'strong_acid' && baseType !== 'strong_base') {
+                } else if (acidType !== 'strong_acid' && baseType !== 'strong_base') { 
                     return 7 + 0.5 * (pKa - pKb);
                 }
             }
-            else {
-                if (baseType === 'strong_base') {
+            // After equivalence point
+            else { 
+                if (baseType === 'strong_base') { 
                     const excessMolesOH = molesBaseAdded - molesAcidInitial;
                     const concentrationOH = excessMolesOH / totalVolume;
                     const pOH = -Math.log10(Math.max(concentrationOH, 1e-14));
                     return 14 - pOH;
-                } else if (baseType !== 'strong_base') {
-                    const excessMolesBase = molesBaseAdded - molesAcidInitial;
-                    const molesBH = molesAcidInitial;
-                    if (excessMolesBase <= 1e-12) { // Avoid log(0) or division by zero
-                        // This might happen if molesBaseAdded is just slightly over molesAcidInitial
-                        // Treat as if it's mostly the salt of weak base, pH driven by its hydrolysis
-                        // Or, if truly excess weak base is negligible, pH might be near equivalence point of weak acid/weak base
-                        return NaN; // Needs more robust handling for this edge case or accept slight inaccuracy
-                    }
-                    const ratio_BH_B = molesBH / excessMolesBase;
+                } else if (baseType !== 'strong_base') { 
+                    const molesB_excess = molesBaseAdded - molesAcidInitial;
+                    const molesBH_formed = molesAcidInitial; 
+                    if (molesB_excess <= 0) return NaN; 
+                    const ratio_BH_B = molesBH_formed / molesB_excess; 
                     const pOH = pKb + Math.log10(Math.max(ratio_BH_B, 1e-14));
                     return 14 - pOH;
                 }
             }
-            console.error(`calculatePH: Reached unhandled case for volume ${volumeBaseMl}, acidType ${acidType}, baseType ${baseType}`);
+            console.error(`calculatePH: Reached unhandled case for volume ${volumeBaseMl} mL`);
             return NaN;
         }
 
-        function calculateSpeciesConcentrations(volumeBaseMl, initialAcidVolume, acidConcentration, baseConcentration, pKa) {
+        function calculateSpeciesConcentrations(volumeBaseMl, acidType, baseType, initialAcidVolume, acidConcentration, baseConcentration, pKa, pKb) {
             const Va = initialAcidVolume / 1000;
-            const Ca = acidConcentration;
+            const Ca_initial_analyte = acidConcentration;
             const Vb = volumeBaseMl / 1000;
-            const Cb = baseConcentration;
+            const Cb_titrant = baseConcentration;
             const totalVolume = Va + Vb;
 
-            if (totalVolume <= 1e-12) {
-                if (volumeBaseMl === 0) {
-                    const Ka_calc = Math.pow(10, -pKa);
-                    const hPlus = (-Ka_calc + Math.sqrt(Math.max(0, Ka_calc * Ka_calc + 4 * Ka_calc * Ca))) / 2;
-                    const ohMinus = Kw / Math.max(hPlus, 1e-14);
-                    const concA = hPlus;
-                    const concHA = Ca - concA;
-                    return { concentrationHA: Math.max(concHA, 0), concentrationA: Math.max(concA, 0), concentrationH: Math.max(hPlus, 1e-18), concentrationOH: Math.max(ohMinus, 1e-18) };
-                }
+            let concentrationH_val, concentrationOH_val, concentrationHA_val, concentrationA_val;
+
+            if (totalVolume <= 1e-12 && volumeBaseMl > 0) { // Avoid division by zero if totalVolume is zero but base added
                 return { concentrationHA: NaN, concentrationA: NaN, concentrationH: NaN, concentrationOH: NaN };
             }
+            
+            // Calculate current pH first to derive H+ concentration
+            const currentPH = calculatePH(volumeBaseMl, acidType, baseType, initialAcidVolume, Ca_initial_analyte, Cb_titrant, pKa, pKb);
 
-            const Ka = Math.pow(10, -pKa);
-            let concentrationHA, concentrationA, concentrationH, concentrationOH;
-            const molesAcidInitial = Va * Ca;
-            const molesBaseAdded = Vb * Cb;
-            const tolerance = 1e-9;
+            if (isNaN(currentPH) || !isFinite(currentPH)) {
+                 // Special handling for Vb = 0 if pH calculation fails, to get initial species
+                if (volumeBaseMl === 0) {
+                    if (acidType === 'strong_acid') {
+                        concentrationH_val = Ca_initial_analyte > 0 ? Ca_initial_analyte : NaN;
+                        concentrationHA_val = Ca_initial_analyte > 0 ? Ca_initial_analyte : NaN; // For SA, HA is effectively H+ initially
+                        concentrationA_val = 0;
+                    } else { // Weak acid
+                        if (Ca_initial_analyte > 0) {
+                            const Ka_v = Math.pow(10, -pKa);
+                            concentrationH_val = (-Ka_v + Math.sqrt(Math.max(0,Ka_v * Ka_v + 4 * Ka_v * Ca_initial_analyte))) / 2;
+                            concentrationA_val = concentrationH_val; // [A-] = [H+] from dissociation
+                            concentrationHA_val = Ca_initial_analyte - concentrationA_val;
+                        } else {
+                             concentrationH_val = NaN; concentrationHA_val = NaN; concentrationA_val = NaN;
+                        }
+                    }
+                    concentrationOH_val = (!isNaN(concentrationH_val) && concentrationH_val > 0) ? Kw / concentrationH_val : NaN;
+                } else {
+                    return { concentrationHA: NaN, concentrationA: NaN, concentrationH: NaN, concentrationOH: NaN };
+                }
+            } else {
+                concentrationH_val = Math.pow(10, -currentPH);
+            }
+            
+            concentrationH_val = Math.max(concentrationH_val, 1e-18); 
+            concentrationOH_val = Kw / concentrationH_val;
 
-            if (molesBaseAdded < molesAcidInitial - tolerance) {
-                concentrationHA = (molesAcidInitial - molesBaseAdded) / totalVolume;
-                concentrationA = molesBaseAdded / totalVolume;
-                if (concentrationA > 1e-18 && concentrationHA > 1e-18) {
-                    concentrationH = Ka * concentrationHA / concentrationA;
-                } else if (concentrationHA > 1e-18) { // Mostly HA, very little A- (beginning)
-                     const ph = calculatePH(volumeBaseMl, 'weak_acid', 'strong_base', initialAcidVolume, acidConcentration, baseConcentration, pKa, 0); // Recalculate pH for H+
-                     concentrationH = isNaN(ph) ? NaN : Math.pow(10, -ph);
+            const molesAcidInitial = Va * Ca_initial_analyte;
+            const molesBaseAdded = Vb * Cb_titrant;
+            const C_total_analyte_acid_system = molesAcidInitial / Math.max(totalVolume, 1e-12);
+
+
+            if (acidType === 'strong_acid') {
+                const moles_SA_reacted_or_A_formed = Math.min(molesAcidInitial, molesBaseAdded);
+                concentrationA_val = moles_SA_reacted_or_A_formed / Math.max(totalVolume, 1e-12);
+                
+                const moles_SA_remaining_HA = Math.max(0, molesAcidInitial - molesBaseAdded);
+                concentrationHA_val = moles_SA_remaining_HA / Math.max(totalVolume, 1e-12);
+            } else { // Weak acid HA/A- system
+                const Ka_v = Math.pow(10, -pKa);
+                // Fraction of A- = Ka / (Ka + [H+])
+                // Fraction of HA = [H+] / (Ka + [H+])
+                if (Ka_v + concentrationH_val === 0) { 
+                    concentrationA_val = (Ka_v > concentrationH_val) ? C_total_analyte_acid_system : 0; // Approximation
+                    concentrationHA_val = (concentrationH_val > Ka_v) ? C_total_analyte_acid_system : 0; // Approximation
+                } else {
+                    concentrationA_val = C_total_analyte_acid_system * (Ka_v / (Ka_v + concentrationH_val));
+                    concentrationHA_val = C_total_analyte_acid_system * (concentrationH_val / (Ka_v + concentrationH_val));
                 }
-                 else { // Should not happen if molesBaseAdded < molesAcidInitial significantly
-                    concentrationH = NaN;
-                }
-                concentrationOH = Kw / Math.max(concentrationH, 1e-18);
-            } else if (Math.abs(molesBaseAdded - molesAcidInitial) < tolerance) {
-                const concentrationA_initial = molesAcidInitial / totalVolume;
-                const Kb_calc = Kw / Ka;
-                concentrationOH = (-Kb_calc + Math.sqrt(Math.max(0, Kb_calc * Kb_calc + 4 * Kb_calc * concentrationA_initial))) / 2;
-                concentrationH = Kw / Math.max(concentrationOH, 1e-18);
-                concentrationHA = concentrationOH; // From hydrolysis: [HA] formed = [OH-] formed
-                concentrationA = concentrationA_initial - concentrationOH; // A- remaining
-            } else { // After equivalence point
-                concentrationOH = (molesBaseAdded - molesAcidInitial) / totalVolume;
-                concentrationH = Kw / Math.max(concentrationOH, 1e-18);
-                concentrationA = molesAcidInitial / totalVolume; // All HA converted to A-, then diluted
-                concentrationHA = (concentrationH * concentrationA) / Ka; // Very small
             }
 
-            // Ensure non-negative and minimal values
-            concentrationH = Math.max(concentrationH || 0, 1e-18); // Use || 0 to handle potential NaN from H calc
-            concentrationOH = Math.max(concentrationOH || 0, 1e-18);
-            concentrationHA = Math.max(concentrationHA || 0, 0);
-            concentrationA = Math.max(concentrationA || 0, 0);
-
-            return { concentrationHA, concentrationA, concentrationH, concentrationOH };
+            return {
+                concentrationHA: Math.max(0, concentrationHA_val || 0),
+                concentrationA: Math.max(0, concentrationA_val || 0),
+                concentrationH: Math.max(0, concentrationH_val || 0), // Ensure H is also non-negative for display
+                concentrationOH: Math.max(0, concentrationOH_val || 0)
+            };
         }
+
 
         function initializeChart() {
             const ctx = document.getElementById('titrationChart').getContext('2d');
@@ -489,76 +479,51 @@
                 titrationChart.destroy();
             }
             const concScaleType = logScaleConcentrationsCheckbox.checked ? 'logarithmic' : 'linear';
-            const maxConc = parseFloat(acidConcentrationInput.value) || 0.1; // Default if input is bad
+            const maxConc = parseFloat(acidConcentrationInput.value) || 0.1;
 
             titrationChart = new Chart(ctx, {
                 type: 'line',
-                data: { /* as before */
+                data: {
                     labels: [],
                     datasets: [{
-                        label: 'pH-Wert', data: [], borderColor: 'rgba(75, 192, 192, 1)', backgroundColor: 'rgba(75, 192, 192, 0.2)',
-                        borderWidth: 2, pointRadius: 0, fill: false, yAxisID: 'y-ph', tension: 0.1
-                    },
-                    {
-                        label: '[HA]', data: [], borderColor: 'rgba(255, 99, 132, 1)', backgroundColor: 'rgba(255, 99, 132, 0.2)',
-                        borderWidth: 2, pointRadius: 0, fill: false, hidden: true, yAxisID: 'y-conc', tension: 0.1
-                    },
-                    {
-                        label: '[A⁻]', data: [], borderColor: 'rgba(54, 162, 235, 1)', backgroundColor: 'rgba(54, 162, 235, 0.2)',
-                        borderWidth: 2, pointRadius: 0, fill: false, hidden: true, yAxisID: 'y-conc', tension: 0.1
-                    },
-                    {
-                        label: '[H⁺]', data: [], borderColor: 'rgba(255, 205, 86, 1)', backgroundColor: 'rgba(255, 205, 86, 0.2)',
-                        borderWidth: 2, pointRadius: 0, fill: false, hidden: true, yAxisID: 'y-conc', tension: 0.1
-                    },
-                    {
-                        label: '[OH⁻]', data: [], borderColor: 'rgba(153, 102, 255, 1)', backgroundColor: 'rgba(153, 102, 255, 0.2)',
-                        borderWidth: 2, pointRadius: 0, fill: false, hidden: true, yAxisID: 'y-conc', tension: 0.1
+                        label: 'pH-Wert', data: [], borderColor: 'rgba(75, 192, 192, 1)', yAxisID: 'y-ph', tension: 0.1, borderWidth: 2, pointRadius: 0, fill: false
+                    }, {
+                        label: '[HA]', data: [], borderColor: 'rgba(255, 99, 132, 1)', yAxisID: 'y-conc', tension: 0.1, hidden: true, borderWidth: 2, pointRadius: 0, fill: false
+                    }, {
+                        label: '[A⁻]', data: [], borderColor: 'rgba(54, 162, 235, 1)', yAxisID: 'y-conc', tension: 0.1, hidden: true, borderWidth: 2, pointRadius: 0, fill: false
+                    }, {
+                        label: '[H⁺]', data: [], borderColor: 'rgba(255, 205, 86, 1)', yAxisID: 'y-conc', tension: 0.1, hidden: true, borderWidth: 2, pointRadius: 0, fill: false
+                    }, {
+                        label: '[OH⁻]', data: [], borderColor: 'rgba(153, 102, 255, 1)', yAxisID: 'y-conc', tension: 0.1, hidden: true, borderWidth: 2, pointRadius: 0, fill: false
                     }]
                 },
                 options: {
-                    responsive: true,
-                    maintainAspectRatio: false,
+                    responsive: true, maintainAspectRatio: false,
                     scales: {
-                        x: {
-                            title: { display: true, text: 'Zugegebenes Volumen Base (mL)' },
-                            type: 'linear', position: 'bottom', min: 0, max: parseFloat(volumeSlider.max)
-                        },
-                        'y-ph': {
-                            title: { display: true, text: 'pH-Wert' }, min: 0, max: 14, position: 'left', grid: { drawOnChartArea: true }
-                        },
+                        x: { title: { display: true, text: 'Zugegebenes Volumen Base (mL)' }, type: 'linear', position: 'bottom', min: 0, max: parseFloat(volumeSlider.max) },
+                        'y-ph': { title: { display: true, text: 'pH-Wert' }, min: 0, max: 14, position: 'left', grid: { drawOnChartArea: true } },
                         'y-conc': {
                             title: { display: true, text: 'Konzentration (mol/L)', color: 'rgba(0,0,0,0.5)' },
-                            position: 'right',
+                            position: 'right', type: concScaleType, display: false, grid: { drawOnChartArea: false },
                             min: concScaleType === 'logarithmic' ? 1e-14 : 0,
-                            max: maxConc * 1.2, // Use parsed maxConc
-                            type: concScaleType,
-                            grid: { drawOnChartArea: false },
+                            max: maxConc * 1.2, 
                             ticks: {
                                 color: 'rgba(0,0,0,0.5)',
                                 callback: function(value) {
-                                    if (concScaleType === 'logarithmic') {
-                                        if (value <= 1e-18) return '0'; // Avoid log(0) display issues
-                                        return Number(value.toExponential(0)); // Ensure it's a number for Chart.js
+                                    if (this.axis && this.axis.options.type === 'logarithmic') { 
+                                        if (value <= 1e-18) return '0';
+                                        const exp = Number(value.toExponential(0));
+                                        return isNaN(exp) ? value : exp; // Fallback if conversion fails
                                     }
-                                    return Number(value.toPrecision(2)); // Ensure it's a number
+                                    const prec = Number(value.toPrecision(2));
+                                    return isNaN(prec) ? value : prec; // Fallback
                                 }
-                            },
-                            display: false
+                            }
                         }
                     },
-                    plugins: {
-                        legend: { display: true },
-                        tooltip: { enabled: true },
-                        annotation: { annotations: {} }
-                    }
+                    plugins: { legend: { display: true }, tooltip: { enabled: true }, annotation: { annotations: {} } }
                 }
             });
-            if (Chart.registry && Chart.registry.plugins.get('annotation')) {
-                 console.log("Annotation Plugin registered.");
-            } else {
-                 console.warn("Annotation Plugin NOT registered.");
-            }
         }
 
         function updateSimulation(volumeMl) {
@@ -566,18 +531,18 @@
             const baseType = baseSelect.value;
             const initialAcidVolume = parseFloat(initialAcidVolumeInput.value);
             const acidConcentration = parseFloat(acidConcentrationInput.value);
-            const baseConcentration = parseFloat(baseConcentrationInput.value);
+            const baseConcentrationVal = parseFloat(baseConcentrationInput.value); 
             const pKa = parseFloat(pKaInput.value);
             const pKb = parseFloat(pKbInput.value);
 
-            if (isNaN(initialAcidVolume) || initialAcidVolume <= 0 || isNaN(acidConcentration) || acidConcentration <= 0 || isNaN(baseConcentration) || baseConcentration <= 0) {
+            if (isNaN(initialAcidVolume) || initialAcidVolume <= 0 || isNaN(acidConcentration) || acidConcentration <= 0 || isNaN(baseConcentrationVal) || baseConcentrationVal <= 0) {
                 currentPHSpan.textContent = 'Ungültige Parameter';
                 equivalenceVolumeSpan.textContent = 'Ungültige Parameter';
-                if(titrationChart) { /* Clear chart */ }
+                if(titrationChart) { titrationChart.data.labels = []; titrationChart.data.datasets.forEach(ds => ds.data = []); titrationChart.update(); }
                 return;
             }
 
-            const equivalenceVolume = (initialAcidVolume * acidConcentration / baseConcentration);
+            const equivalenceVolume = (initialAcidVolume * acidConcentration / baseConcentrationVal);
             equivalenceVolumeSpan.textContent = (!isNaN(equivalenceVolume) && isFinite(equivalenceVolume)) ? equivalenceVolume.toFixed(2) : 'Ungültige Parameter';
             
             if(!titrationChart) { initializeChart(); if(!titrationChart) return; }
@@ -585,61 +550,40 @@
             titrationChart.data.labels = [];
             titrationChart.data.datasets.forEach(dataset => dataset.data = []);
 
-            const step = 0.2; // Finer step for general curve
-            const fineStep = 0.02; // Very fine step near equivalence
-            const fineRange = 1.0; // Range for very fine steps
+            const step = 0.2; 
+            const fineStep = 0.02;
+            const fineRange = 1.0; 
 
             const volumesToCalculate = [];
             let currentVol = 0;
-            // Add initial point
             volumesToCalculate.push(0);
-
-            // Generate points up to the current slider volume
             while(currentVol < volumeMl) {
                 let actualStep = step;
                 if (!isNaN(equivalenceVolume) && isFinite(equivalenceVolume)) {
-                    if (Math.abs(currentVol - equivalenceVolume) < fineRange) {
-                         actualStep = fineStep;
-                    } else if (Math.abs(currentVol - equivalenceVolume) < fineRange * 3) { // Slightly wider range for intermediate step
-                        actualStep = Math.min(step, 0.1); // Intermediate step
-                    }
+                    if (Math.abs(currentVol - equivalenceVolume) < fineRange) actualStep = fineStep;
+                    else if (Math.abs(currentVol - equivalenceVolume) < fineRange * 3) actualStep = Math.min(step, 0.1);
                 }
                 currentVol += actualStep;
-                // Ensure we don't overshoot volumeMl by too much with the step
-                if (currentVol > volumeMl && (currentVol - actualStep < volumeMl)) {
-                    volumesToCalculate.push(volumeMl); // Add the exact volumeMl
-                    break; 
-                }
-                if (currentVol <= volumeMl) {
-                    volumesToCalculate.push(currentVol);
-                }
+                if (currentVol > volumeMl && (currentVol - actualStep < volumeMl)) { volumesToCalculate.push(volumeMl); break; }
+                if (currentVol <= volumeMl) volumesToCalculate.push(currentVol);
                 if (actualStep < 1e-9) break; 
             }
-            // Ensure volumeMl is included if not already the last point
-            if (volumesToCalculate[volumesToCalculate.length -1] < volumeMl && Math.abs(volumesToCalculate[volumesToCalculate.length -1] - volumeMl) > 1e-9) {
+            if (volumesToCalculate.length === 0 || (volumesToCalculate[volumesToCalculate.length -1] < volumeMl && Math.abs(volumesToCalculate[volumesToCalculate.length -1] - volumeMl) > 1e-9)) {
                  volumesToCalculate.push(volumeMl);
             }
-
             const uniqueVolumes = [...new Set(volumesToCalculate.map(v => parseFloat(v.toFixed(3))))].sort((a, b) => a - b);
 
             uniqueVolumes.forEach(vol => {
-                const ph = calculatePH(vol, acidType, baseType, initialAcidVolume, acidConcentration, baseConcentration, pKa, pKb);
-                titrationChart.data.labels.push(vol.toFixed(1)); // X-axis label
+                const ph = calculatePH(vol, acidType, baseType, initialAcidVolume, acidConcentration, baseConcentrationVal, pKa, pKb);
+                titrationChart.data.labels.push(vol.toFixed(1));
 
-                if (isNaN(ph) || !isFinite(ph)) {
-                    titrationChart.data.datasets[0].data.push(NaN); // pH data
-                } else {
-                    titrationChart.data.datasets[0].data.push(ph);
-                    if (acidType !== 'strong_acid' && baseType === 'strong_base' && showConcentrationsCheckbox.checked) {
-                        const concentrations = calculateSpeciesConcentrations(vol, initialAcidVolume, acidConcentration, baseConcentration, pKa);
-                        titrationChart.data.datasets[1].data.push(concentrations.concentrationHA);
-                        titrationChart.data.datasets[2].data.push(concentrations.concentrationA);
-                        titrationChart.data.datasets[3].data.push(concentrations.concentrationH);
-                        titrationChart.data.datasets[4].data.push(concentrations.concentrationOH);
-                    } else {
-                        [1, 2, 3, 4].forEach(i => titrationChart.data.datasets[i].data.push(NaN));
-                    }
-                }
+                const species = calculateSpeciesConcentrations(vol, acidType, baseType, initialAcidVolume, acidConcentration, baseConcentrationVal, pKa, pKb);
+
+                titrationChart.data.datasets[0].data.push((!isNaN(ph) && isFinite(ph)) ? ph : NaN);
+                titrationChart.data.datasets[1].data.push(species.concentrationHA); 
+                titrationChart.data.datasets[2].data.push(species.concentrationA);  
+                titrationChart.data.datasets[3].data.push(species.concentrationH);  
+                titrationChart.data.datasets[4].data.push(species.concentrationOH); 
             });
 
             currentVolumeSpan.textContent = volumeMl.toFixed(1);
@@ -647,54 +591,29 @@
             
             let lastValidPH = NaN;
             const phData = titrationChart.data.datasets[0].data;
-            if (phData.length > 0) {
-                lastValidPH = phData[phData.length -1]; // Get pH at current slider volume
-            }
+            if (phData.length > 0) lastValidPH = phData[phData.length -1];
             currentPHSpan.textContent = (isNaN(lastValidPH) || !isFinite(lastValidPH)) ? '-' : lastValidPH.toFixed(2);
             
-            titrationChart.update('none'); // 'none' to prevent animations during slider drag for performance
+            titrationChart.update('none');
         }
 
         function resetSimulation() {
-            console.log("Resetting simulation...");
             volumeSlider.value = 0;
-            // currentVolumeSpan.textContent = '0.0'; // updateSimulation will set this
-            // currentVolumeDisplaySpan.textContent = '0.0'; // updateSimulation will set this
-            // currentPHSpan.textContent = '-'; // updateSimulation will set this
-
-            if(!titrationChart) {
-                initializeChart();
-                 if(!titrationChart) { console.error("Chart init failed during reset."); return; }
-            }
+            if(!titrationChart) initializeChart();
+            if(!titrationChart) { console.error("Chart init failed during reset."); return; }
             
-            // Clear existing data before recalculating initial point
             titrationChart.data.labels = [];
             titrationChart.data.datasets.forEach(dataset => dataset.data = []);
-
-            const initialAcidVolume = parseFloat(initialAcidVolumeInput.value);
-            const acidConcentration = parseFloat(acidConcentrationInput.value);
-            const baseConcentration = parseFloat(baseConcentrationInput.value);
             
-            // Update X-axis max based on current slider settings or a default like 50
             const sliderMax = parseFloat(volumeSlider.max) || 50;
-            if (titrationChart.options.scales.x) { // Ensure scale exists
-                 titrationChart.options.scales.x.max = sliderMax;
-            }
+            if (titrationChart.options.scales.x) titrationChart.options.scales.x.max = sliderMax;
 
-
-            // Calculate initial pH and equivalence point for display
-            updateSimulation(0); // Calculate and display for Vb = 0 mL
-            
-            // updateIndicatorAnnotation needs to be called after chart is updated by updateSimulation
-            // It's better to call it at the end of updateSimulation or here if updateSimulation(0) is synchronous enough
+            updateSimulation(0); 
             updateIndicatorAnnotation(); 
-            console.log("Simulation reset complete.");
         }
 
         function updateIndicatorAnnotation() {
-            if (!titrationChart || !titrationChart.options || !titrationChart.options.plugins || !titrationChart.options.plugins.annotation) {
-                return;
-            }
+            if (!titrationChart || !titrationChart.options.plugins.annotation) return;
             const selectedIndicator = indicatorSelect.value;
             const indicatorData = indicators[selectedIndicator];
             const newAnnotations = {};
@@ -705,26 +624,17 @@
                 if (xAxis) {
                      newAnnotations.indicatorRange = {
                         type: 'box', xScaleID: 'x', yScaleID: 'y-ph',
-                        yMin: phStart, yMax: phEnd,
-                        xMin: xAxis.min, xMax: xAxis.max, // Use actual min/max of the x-axis scale
+                        yMin: phStart, yMax: phEnd, xMin: xAxis.min, xMax: xAxis.max,
                         backgroundColor: color, borderColor: 'rgba(0,0,0,0)', borderWidth: 0,
                         drawTime: 'beforeDatasetsDraw'
                     };
                 }
             }
             titrationChart.options.plugins.annotation.annotations = newAnnotations;
-            titrationChart.update('none'); // Use 'none' to avoid animation if called frequently
+            titrationChart.update('none');
         }
 
-        volumeSlider.addEventListener('input', (event) => {
-            const volume = parseFloat(event.target.value);
-            updateSimulation(volume);
-            // Indicator annotation usually doesn't need to update on slider move unless x-axis range changes dynamically with slider
-            // If x-axis max is fixed, then updateIndicatorAnnotation() is not strictly needed here.
-            // However, if x-axis max *could* change, then it should be called.
-            // For now, assuming x-axis max is relatively stable during a single titration curve generation.
-        });
-
+        volumeSlider.addEventListener('input', (event) => updateSimulation(parseFloat(event.target.value)));
         resetButton.addEventListener('click', resetSimulation);
 
         acidSelect.addEventListener('change', (event) => {
@@ -732,38 +642,18 @@
             if (event.target.value === 'acetic_acid') pKaInput.value = '4.76';
             else if (event.target.value === 'formic_acid') pKaInput.value = '3.75';
             else if (event.target.value === 'hydrocyanic_acid') pKaInput.value = '9.21';
-            updateConcentrationsCheckboxVisibility(); // This will call resetSimulation
+            resetSimulation(); 
         });
 
         baseSelect.addEventListener('change', (event) => {
             baseStrengthControlsDiv.style.display = (event.target.value !== 'strong_base') ? 'block' : 'none';
             if (event.target.value === 'ammonia') pKbInput.value = '4.75';
-            updateConcentrationsCheckboxVisibility(); // This will call resetSimulation
+            resetSimulation();
         });
-
-        function updateConcentrationsCheckboxVisibility() {
-            const acidType = acidSelect.value;
-            const baseType = baseSelect.value;
-            const canShowConcentrations = (acidType !== 'strong_acid' && baseType === 'strong_base');
-            
-            concentrationsCheckboxGroup.style.display = canShowConcentrations ? 'block' : 'none';
-            logScaleConcentrationsCheckbox.parentElement.style.display = canShowConcentrations ? 'block' : 'none'; // Also show/hide log scale option
-
-            if (!canShowConcentrations) {
-                showConcentrationsCheckbox.checked = false;
-            }
-            
-            if (titrationChart) {
-                const show = showConcentrationsCheckbox.checked && canShowConcentrations;
-                [1, 2, 3, 4].forEach(i => titrationChart.data.datasets[i].hidden = !show);
-                titrationChart.options.scales['y-conc'].display = show;
-                resetSimulation(); // Reset to apply changes and redraw
-            }
-        }
-
+        
         logScaleConcentrationsCheckbox.addEventListener('change', () => {
-            initializeChart(); // Re-init for scale type change
-            resetSimulation(); // Redraw with new scale
+            initializeChart(); 
+            resetSimulation(); 
         });
 
         [initialAcidVolumeInput, acidConcentrationInput, baseConcentrationInput, pKaInput, pKbInput].forEach(input => {
@@ -772,37 +662,26 @@
         
         showConcentrationsCheckbox.addEventListener('change', (event) => {
             if(!titrationChart) return;
-            const acidType = acidSelect.value;
-            const baseType = baseSelect.value;
-            const canShowConcentrations = (acidType !== 'strong_acid' && baseType === 'strong_base');
-            const show = event.target.checked && canShowConcentrations;
-
+            const show = event.target.checked;
             [1, 2, 3, 4].forEach(i => titrationChart.data.datasets[i].hidden = !show);
             titrationChart.options.scales['y-conc'].display = show;
-            
-            // Redraw the current state of the simulation with the new visibility
-            // We don't want to fully reset, just update the visibility and data for concentrations
-            updateSimulation(parseFloat(volumeSlider.value));
             titrationChart.update();
         });
 
-        indicatorSelect.addEventListener('change', () => {
-            // updateIndicatorAnnotation is called within resetSimulation or updateSimulation if needed
-            // For direct change, just call it.
-            updateIndicatorAnnotation();
-        });
+        indicatorSelect.addEventListener('change', updateIndicatorAnnotation);
 
         window.onload = () => {
             acidSelect.value = 'acetic_acid'; 
             baseSelect.value = 'strong_base'; 
-            
             acidStrengthControlsDiv.style.display = 'block';
             pKaInput.value = '4.76';
             baseStrengthControlsDiv.style.display = 'none';
 
+            concentrationsCheckboxGroup.style.display = 'block';
+            logScaleConcentrationsCheckbox.parentElement.style.display = 'block';
+
             initializeChart(); 
-            updateConcentrationsCheckboxVisibility(); // This will call resetSimulation
-            // resetSimulation already calls updateIndicatorAnnotation
+            resetSimulation();
         };
     </script>
 </body>
